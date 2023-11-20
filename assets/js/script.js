@@ -1,6 +1,6 @@
 // Define arrays including questions and choices:
 
-let questions = [{ 
+let allQuestions = [{ 
         question: "What is the purpose of the HTML 'meta' tag?",
         choices: ["To define a paragraph", "To specify metadata about a document", "To create a link to an external stylesheet", "To insert a media element"],
         correct: "To specify metadata about a document"
@@ -43,7 +43,7 @@ let questions = [{
     { 
         question: "How do you use the getElementById method in JavaScript to retrieve an HTML element with the id 'myElement'?",
         choices: ['getElement("myElement")', 'document.getMyElement("Element")', 'document.getElementById("myElement")', 'element.getElementById("myElement")'],
-        corect: 'document.getElementById("myElement")'
+        correct: 'document.getElementById("myElement")'
     }, 
     { 
         question: "How would you set the 'src' attribute of an image element with the id 'myImage' to 'image.jpg' using JavaScript?",
@@ -52,10 +52,90 @@ let questions = [{
     }
 ]
 
-function {
+// TODO: function to start the quiz and timer
+// TODO: Type Question number
+// TODO: function to receive the answer
+// TODO: function to check the accuracy and get feedback
+// TODO: function for clicking next
+// TODO: function to store scores
+// TODO: function to show final result
+// TODO: function to get initial
+// TODO: function 
 
+
+
+var i = 0; 
+var correctAnswers = 0;
+var incorrectAnswers = 0;
+var timer;
+var timerCount;
+
+var QN = document.getElementById("number");
+var questionNumber = document.createElement("questionNumber");
+var nextBTN = document.getElementById ("nextBTN");
+var question = document.getElementById("question");
+var questionText = document.createElement("questionText");
+var choiceButtons = [];
+var feedback = document.createElement("feedback");
+feedback.classList.add("feedback-style");
+// feedback.setAttribute("style", "feedback-style");
+
+//  To show question number, their contents (question and its choices):
+function showQuestion(i) {
+    var currentQuestion = allQuestions[i];
+    questionNumber.textContent = " " + (i + 1) + ":";
+    questionText.textContent = allQuestions[i].question;
+    QN.appendChild(questionNumber);
+    question.appendChild(questionText);
+
+    for (var j = 0; j < currentQuestion.choices.length; j++) {
+        var choiceBTN = document.createElement("choiceBTN");
+        choiceBTN.classList.add("choiceBTN");
+        choiceBTN.textContent = currentQuestion.choices[j];
+        question.appendChild(choiceBTN);
+        choiceButtons.push(choiceBTN);
+        choiceBTN.addEventListener("click", checkAnswer);
+    }
+}
+showQuestion(i);
+
+
+// add a flag to check whether the user has already made a choice for the current question. If a choice has been made, it disables the event listeners for the choice buttons until the next question.
+
+function disableChoiceButtons(){
+    choiceButtons.forEach(button => {
+        button.removeEventListener("click", checkAnswer);
+    });
 }
 
-var questionText = document.getElementById("question");
-var choiceText = document.getElementById("choice");
-questionText.setAttribute("value", )
+function checkAnswer(event) {
+    console.log(event.target);
+    disableChoiceButtons();
+
+    if (event.target.textContent === allQuestions[i].correct) {
+        event.target.classList.add('correctGreen');
+        feedback.textContent = "correct! 🤩";
+        question.appendChild(feedback);
+        correctAnswers++;
+    } else{
+        event.target.classList.add('incorrectRed');
+        feedback.textContent = "incorrect! 🫠 The correct answer is: " + allQuestions[i].correct;
+        question.appendChild(feedback);
+        incorrectAnswers++;
+    };
+
+
+};
+
+nextBTN.addEventListener("click", nextQuestion);
+
+function nextQuestion () {
+i++;
+while (question.firstChild) {
+    question.removeChild(question.firstChild);
+}
+console.log("❓: " + i);
+console.log("✅: " + correctAnswers);
+console.log("❌: " + incorrectAnswers);
+showQuestion(i);
+}
