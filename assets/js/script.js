@@ -53,8 +53,7 @@ let allQuestions = [{
 ]
 
 // TODO: function to start the quiz and timer
-// TODO: Type Question number
-// TODO: function to receive the answer
+
 // TODO: function to check the accuracy and get feedback
 // TODO: function for clicking next
 // TODO: function to store scores
@@ -70,6 +69,7 @@ var incorrectAnswers = 0;
 var timer;
 var timerCount;
 
+var timerElement = document.getElementById("timer");
 var QN = document.getElementById("number");
 var questionNumber = document.createElement("questionNumber");
 var nextBTN = document.getElementById ("nextBTN");
@@ -77,13 +77,53 @@ var question = document.getElementById("question");
 var questionText = document.createElement("questionText");
 var choiceButtons = [];
 var feedback = document.createElement("feedback");
+var correctCount = document.createElement("correctN");
+var incorrectCount = document.createElement("incorrectN");
+
 feedback.classList.add("feedback-style");
 // feedback.setAttribute("style", "feedback-style");
+nextBTN.addEventListener("click", nextQuestion);
 
+var prompt = confirm("Start the quiz!");
+if (prompt) {
+    startQuiz();
+}
+
+function startQuiz () {
+    timerCount = 30;
+    startTimer();
+    showQuestion(i);
+}
+
+function startTimer (){
+    timer = setInterval(function() {
+        timerCount--;
+        timerElement.textContent ="Time: " + timerCount;
+        if (timerCount === 0) {
+            clearInterval(timer);
+            timeOver();
+        }
+    }, 1000);
+    console.log(timerCount);
+}
+
+function reduceTime () {
+    if (timerCount > 4) {
+        timerCount -= 4;
+    } else {
+        timerCount = 0;
+        timeOver();
+    }
+}
+
+function timeOver () {
+    alert("⌛️ Time is over!! ⌛️");
+    return startTimer;
+}
 //  To show question number, their contents (question and its choices):
 function showQuestion(i) {
     var currentQuestion = allQuestions[i];
-    questionNumber.textContent = " " + (i + 1) + ":";
+    questionNumber.textContent = "Question " + (i + 1) + ":";
     questionText.textContent = allQuestions[i].question;
     QN.appendChild(questionNumber);
     question.appendChild(questionText);
@@ -97,17 +137,15 @@ function showQuestion(i) {
         choiceBTN.addEventListener("click", checkAnswer);
     }
 }
-showQuestion(i);
 
-
-// add a flag to check whether the user has already made a choice for the current question. If a choice has been made, it disables the event listeners for the choice buttons until the next question.
-
+// to disable the eventlistener after the first choice:
 function disableChoiceButtons(){
     choiceButtons.forEach(button => {
         button.removeEventListener("click", checkAnswer);
     });
 }
 
+// to check the accuracy of the answer and give feedback:
 function checkAnswer(event) {
     console.log(event.target);
     disableChoiceButtons();
@@ -122,20 +160,33 @@ function checkAnswer(event) {
         feedback.textContent = "incorrect! 🫠 The correct answer is: " + allQuestions[i].correct;
         question.appendChild(feedback);
         incorrectAnswers++;
+        reduceTime();
     };
-
-
 };
 
-nextBTN.addEventListener("click", nextQuestion);
+
+
+// to show final result after qusetions are finished:
+
+function showFinalResult(){
+
+    correctCount.textContent = "Correct: " + correctAnswers;
+}
+
+// to navigate to the next question:
 
 function nextQuestion () {
-i++;
-while (question.firstChild) {
-    question.removeChild(question.firstChild);
-}
-console.log("❓: " + i);
-console.log("✅: " + correctAnswers);
-console.log("❌: " + incorrectAnswers);
-showQuestion(i);
-}
+    if (i < 9){
+        i++;
+        while (question.firstChild) {
+            question.removeChild(question.firstChild);
+        }
+        console.log("❓: " + i);
+        console.log("✅: " + correctAnswers);
+        console.log("❌: " + incorrectAnswers);
+        showQuestion(i);
+    } else {
+
+        showFinalResult()
+    }
+    }

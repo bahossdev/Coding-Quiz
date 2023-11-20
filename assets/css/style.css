@@ -45,9 +45,14 @@ h3:hover {
     border-radius: 15px;
 }
 
+.card p{
+    margin-bottom: 5px;
+}
+
 .choiceBTN {
     line-height: 2.5rem;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
     margin-top: 5px;
     margin-left: -10px;
     margin-bottom: 3px;
@@ -125,13 +130,12 @@ h3:hover {
     transition: 0.5s ease-in-out;
 }
 
-.timer {
+#timer {
     display: block;
     position: fixed;
-    top: 4px;
-    right: 60px;
+    top: 10px;
+    right: 30px;
     padding: 3px;
-    /* box-shadow: 3px 3px 6px rgb(133, 140, 178); */
     line-height: 1.3rem;;
     font-size: 1.2rem;
     font-weight:bold;
@@ -143,7 +147,7 @@ footer {
     font-size: larger;
     background-image: url(../images/pattern.jpeg);
     text-shadow: 1px 2px 2px navy;
-    text-justify: center;
+    /* text-justify: center; */
     position: fixed;
     left: -30px;
     bottom: 0px;
@@ -152,5 +156,5 @@ footer {
 }
 
 footer p {
-    margin-left: -10rem;
+    margin-left: -14rem;
 }
