@@ -61,36 +61,50 @@ let allQuestions = [{
 // TODO: function to get initial
 // TODO: function 
 
+// Declaring variables and elements
+
+let i = 0; 
+let correctAnswers = 0;
+let incorrectAnswers = 0;
+let timer;
+let timerCount;
+let highScores = [];
+
+let welcome = document.getElementById("welcome");
+let welcomeHeading = document.createElement("welcome");
+let welcomeText = document.getElementById("welcome-text");
+let welcomeNote = document.createElement("welcome-text");
+let timerElement = document.getElementById("timer");
+let QuestionN = document.getElementById("number");
+let startBTN = document.getElementById("startBTN");
+let nextBTN = document.getElementById ("nextBTN");
+let cardText = document.getElementById("card-text");
+let questionNumber = document.createElement("questionNumber");
+let questionText = document.createElement("questionText");
+let choiceButtons = [];
+let feedback = document.createElement("feedback");
+let correctCount = document.createElement("correctN");
+let incorrectCount = document.createElement("incorrectN");
 
 
-var i = 0; 
-var correctAnswers = 0;
-var incorrectAnswers = 0;
-var timer;
-var timerCount;
-
-var timerElement = document.getElementById("timer");
-var QN = document.getElementById("number");
-var questionNumber = document.createElement("questionNumber");
-var nextBTN = document.getElementById ("nextBTN");
-var question = document.getElementById("question");
-var questionText = document.createElement("questionText");
-var choiceButtons = [];
-var feedback = document.createElement("feedback");
-var correctCount = document.createElement("correctN");
-var incorrectCount = document.createElement("incorrectN");
 
 feedback.classList.add("feedback-style");
 // feedback.setAttribute("style", "feedback-style");
+startBTN.addEventListener("click", startQuiz);
 nextBTN.addEventListener("click", nextQuestion);
 
-var prompt = confirm("Start the quiz!");
-if (prompt) {
-    startQuiz();
-}
 
-function startQuiz () {
-    timerCount = 30;
+welcomeHeading.textContent = "Welcome to Code Quiz!";
+welcomeNote.textContent = "In this quiz you will be given 60 seconds to answer multiple-choice questions about HTML, CSS, JS, and Web APIs. You can check your time at the righ-top corner, and the highscores at the left-top corner. Ready? Press Start button to begin. Good luck!";
+welcome.appendChild(welcomeHeading);
+welcomeText.appendChild(welcomeNote);
+
+
+function startQuiz() {
+    let welcomeCard = document.getElementById("welcome-card");
+    welcomeCard.remove();
+    document.querySelector(".card.hide").classList.remove('hide');    
+    timerCount = 15;
     startTimer();
     showQuestion(i);
 }
@@ -101,51 +115,71 @@ function startTimer (){
         timerElement.textContent ="Time: " + timerCount;
         if (timerCount === 0) {
             clearInterval(timer);
-            timeOver();
+            disableChoiceButtons();
+            timeIsUp();
         }
     }, 1000);
     console.log(timerCount);
 }
 
 function reduceTime () {
-    if (timerCount > 4) {
-        timerCount -= 4;
+    if (timerCount > 5) {
+        timerCount -= 5;
     } else {
         timerCount = 0;
-        timeOver();
+        timeIsUp();
     }
 }
 
-function timeOver () {
-    alert("⌛️ Time is over!! ⌛️");
-    return startTimer;
+function timeIsUp () {
+    alert("⌛️ Time is up!! ⌛️");
+    disableChoiceButtons();
+    showFinalResult();
+    clearInterval(timer);
+    // return startTimer;
 }
-//  To show question number, their contents (question and its choices):
+// To show question number, their contents (question and its choices):
 function showQuestion(i) {
-    var currentQuestion = allQuestions[i];
+    let currentQuestion = allQuestions[i];
     questionNumber.textContent = "Question " + (i + 1) + ":";
     questionText.textContent = allQuestions[i].question;
-    QN.appendChild(questionNumber);
-    question.appendChild(questionText);
+    QuestionN.appendChild(questionNumber);
+    cardText.appendChild(questionText);
 
-    for (var j = 0; j < currentQuestion.choices.length; j++) {
-        var choiceBTN = document.createElement("choiceBTN");
+    for (let j = 0; j < currentQuestion.choices.length; j++) {
+        let choiceBTN = document.createElement("choiceBTN");
         choiceBTN.classList.add("choiceBTN");
         choiceBTN.textContent = currentQuestion.choices[j];
-        question.appendChild(choiceBTN);
+        cardText.appendChild(choiceBTN);
         choiceButtons.push(choiceBTN);
         choiceBTN.addEventListener("click", checkAnswer);
     }
 }
 
-// to disable the eventlistener after the first choice:
+// To navigate to the next question:
+function nextQuestion () {
+    if (i < 9){
+        i++;
+        while (cardText.firstChild) {
+            cardText.removeChild(cardText.firstChild);
+        }
+        console.log("❓: " + i);
+        console.log("✅: " + correctAnswers);
+        console.log("❌: " + incorrectAnswers);
+        showQuestion(i);
+    } else {
+        questionNumber.textContent = "Time is up!";
+        showFinalResult()
+    }
+}
+// To disable the eventlistener after the first choice:
 function disableChoiceButtons(){
     choiceButtons.forEach(button => {
         button.removeEventListener("click", checkAnswer);
     });
 }
 
-// to check the accuracy of the answer and give feedback:
+// To check the accuracy of the answer and give feedback:
 function checkAnswer(event) {
     console.log(event.target);
     disableChoiceButtons();
@@ -153,40 +187,115 @@ function checkAnswer(event) {
     if (event.target.textContent === allQuestions[i].correct) {
         event.target.classList.add('correctGreen');
         feedback.textContent = "correct! 🤩";
-        question.appendChild(feedback);
+        cardText.appendChild(feedback);
         correctAnswers++;
     } else{
         event.target.classList.add('incorrectRed');
         feedback.textContent = "incorrect! 🫠 The correct answer is: " + allQuestions[i].correct;
-        question.appendChild(feedback);
+        cardText.appendChild(feedback);
         incorrectAnswers++;
         reduceTime();
     };
 };
 
-
-
-// to show final result after qusetions are finished:
-
+// To show final result after qusetions are finished or when time is up:
 function showFinalResult(){
-
+    while (cardText.firstChild) { 
+        cardText.removeChild(cardText.firstChild);
+    };
+    nextBTN.style.display = "none";
+    questionNumber.textContent = " "
     correctCount.textContent = "Correct: " + correctAnswers;
+    questionNumber.appendChild(correctCount);
+
+    let form = document.createElement("form");
+    let textInput = document.createElement("input");
+    let label = document.createElement("label");
+    textInput.type = "text";
+    textInput.name = "initials";
+    label.textContent = "Please enter your initials: ";
+    textInput.placeholder = "Your initials here...";
+
+    let submitBTN = document.createElement("input");
+    submitBTN.type = "submit";
+    submitBTN.setAttribute("style", "#submitBTN")
+    submitBTN.textContent = "Submit";
+
+    form.appendChild(label);
+    form.appendChild(textInput);
+    form.appendChild(submitBTN);
+    cardText.appendChild(form);
+
+    submitBTN.addEventListener("click", function(event) {
+        event.preventDefault();
+        let initials = textInput.value;
+        console.log(initials);
+
+        let userData = {
+            initials: initials,
+            correctAnswers: correctAnswers
+        };
+        highScores.push(userData);
+        
+        localStorage.setItem("highScoresList", JSON.stringify(highScores));
+
+        displayHighScores();
+
+        document.getElementById("highScoresList").classList.remove("hide");
+
+        return timeIsUp;
+    
+});
 }
 
-// to navigate to the next question:
 
-function nextQuestion () {
-    if (i < 9){
-        i++;
-        while (question.firstChild) {
-            question.removeChild(question.firstChild);
-        }
-        console.log("❓: " + i);
-        console.log("✅: " + correctAnswers);
-        console.log("❌: " + incorrectAnswers);
-        showQuestion(i);
-    } else {
+function displayHighScores(){
+    questionNumber.textContent = "Thank You!"
+    let highScoresList = document.getElementById("highScoresList");
+    highScoresList.innerHTML = "";
 
-        showFinalResult()
-    }
-    }
+    // Retrieve high scores from local storage
+    let storedHighScores = JSON.parse(localStorage.getItem("highScoresList")) || [];
+
+    // Sort high scores by correctAnswers in descending order
+    storedHighScores.sort((a, b) => b.correctAnswers - a.correctAnswers);
+
+    // Display high scores in the list
+    storedHighScores.forEach(score => {
+        let listItem = document.createElement("li");
+        listItem.textContent = `${score.initials}: ${score.correctAnswers} correct answers`;
+        highScoresList.appendChild(listItem);
+    });
+
+}
+
+
+// submitBTN.addEventListener("click", function (event) {
+//     event.preventDefault();
+//     let initials = textInput.value.trim();
+
+//     if (initials !== "") {
+//         // Store the current user's data
+//         let userData = {
+//             initials: initials,
+//             correctAnswers: correctAnswers
+//         };
+
+//         // Retrieve existing high scores or initialize an empty array
+//         let storedHighScores = JSON.parse(localStorage.getItem("highScores")) || [];
+
+//         // Add the current user's data to the array
+//         storedHighScores.push(userData);
+
+//         // Save all high scores to local storage
+//         localStorage.setItem("highScores", JSON.stringify(storedHighScores));
+
+//         // Display high scores dynamically
+//         displayHighScores();
+
+//         // Show the high scores section
+//         document.getElementById("highScores").classList.remove("hide");
+//     } else {
+//         alert("Please enter your initials before submitting.");
+//     }
+// });

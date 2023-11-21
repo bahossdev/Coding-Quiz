@@ -14,23 +14,33 @@
     </header>
 
     <main>
-        <section class="highscore">
+        <section id="highScores">
             <h2> 🏆 View Highscores 🏆</h2>
+            <ol id="highScoresList" class="hide" type="1"></ol>
         </section>
 
-        <setion id="timer">
-            <p></p>
-        </setion>
+        <section id="timer">
+            <p>Timer</p>
+        </section>
 
-        <section class="card">
+        <section class="card" id="welcome-card">
+            <h3 id="welcome"></h3>
+            <p id="welcome-text"></p>
+            <button id="startBTN">
+                Start
+            </button>
+        </section>
+
+        <section class="card hide">
             <h3 id="number"></h3>
-            <p id="question"></p>
+            <p id="card-text"></p>
             <p id="feedback"></p>
             <button id="nextBTN">
                 Next
             </button>
         
         </section>
+
     </main>
     <footer>
         <p>copyright and stuff!</p>
