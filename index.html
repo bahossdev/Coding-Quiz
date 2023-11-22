@@ -4,7 +4,6 @@
     <title>Coding Quiz</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- <link rel="stylesheet" type="text/css" href="./assets/css/reset.css" /> -->
     <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
   </head>
 
@@ -14,36 +13,33 @@
     </header>
 
     <main>
-        <section id="highScores">
-            <h2> 🏆 View Highscores 🏆</h2>
-            <ol id="highScoresList" class="hide" type="1"></ol>
-        </section>
-
+        <!-- timer -->
         <section id="timer">
             <p>Timer</p>
         </section>
+        
+        <!-- the card section serves as the container for showing multiple contents: welcome-note, questions and their multiple-choices, form to submit initials, and displaying the highscores -->
 
-        <section class="card" id="welcome-card">
-            <h3 id="welcome"></h3>
-            <p id="welcome-text"></p>
+        <section class="card">
+            <h3 id="heading"></h3>
+            <p id="cardText"></p>
+            <p id="feedback"></p>
             <button id="startBTN">
                 Start
             </button>
-        </section>
-
-        <section class="card hide">
-            <h3 id="number"></h3>
-            <p id="card-text"></p>
-            <p id="feedback"></p>
-            <button id="nextBTN">
+            <button id="nextBTN"  class="hide">
                 Next
             </button>
+        </section>
         
+        <!-- to navigate to the highscore card-->
+        <section id="highScores">
+            <h2> 🏆 View Highscores 🏆</h2>
         </section>
 
     </main>
     <footer>
-        <p>copyright and stuff!</p>
+        <p> © Bahossdev 2023 </p>
     </footer>
     <script src="./assets/js/script.js"></script>
   </body>

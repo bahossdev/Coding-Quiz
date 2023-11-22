@@ -1,12 +1,13 @@
-* {
-    box-sizing: border-box;
-}
-
+/* variables */
 :root {
     --text-shadow: 2px 2px 5px rgb(97, 113, 189), 3px 5px 7px rgb(143, 154, 213);
+    --buttonshadow: rgb(133, 140, 178);
+    --darkBlue: rgb(22, 22, 151);
 }
+
+/* body and html general style */
 html {
-    background: linear-gradient(rgb(11, 176, 162), white);
+    background: linear-gradient(rgba(15, 154, 182, 0.9), white);
     height: 100%;
 }
 
@@ -15,21 +16,31 @@ body {
     text-align: center;
 }
 
-h1 {
-    font-size: 2.5rem;
+/* hide elements when not needed */
+.hide {
+    display: none;
 }
 
-h3 {
+/* headings styling */
+h1 {
+    color: var(--darkBlue);
+    font-size: 2.5rem;
+    text-shadow: 4px 2px 5px whitesmoke;
+
+}
+
+#heading {
     color: navy;
     margin-bottom: -8px;;
 } 
 
-h3:hover {
+#heading:hover {
     text-shadow: var(--text-shadow);
     transition: 0.3s ease-in-out;
 }
 
-.card, .card2 {
+/* card styling and its fonts */
+.card {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -45,10 +56,34 @@ h3:hover {
     border-radius: 15px;
 }
 
-.hide {
-    display: none;
+.feedback {
+    color:rgb(81, 80, 80);
+    font-size: 1.1rem;
+    font-style: italic;
 }
 
+/* all button stylings and their hovering effects */
+
+#nextBTN, #startBTN, .submitBTN, .restartBTN{
+    background: linear-gradient(rgb(52, 52, 136), rgb(30, 116, 174) 60%, rgb(174, 213, 250) 90%);
+    border-radius: 8px;
+    height: 32px;
+    width: 100px;
+    margin-left: 10px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: whitesmoke;
+    align-self: flex-end;
+}
+
+#nextBTN:hover, #startBTN:hover, .submitBTN:hover, .restartBTN:hover{
+    background: linear-gradient(rgb(157, 87, 195), rgb(169, 112, 219) 60%, rgb(242, 174, 250) 90%);
+    box-shadow: 3px 3px 5px rgb(97, 113, 189);
+    transition: 0.2s ease-in-out;
+    color: rgb(45, 44, 47);
+    cursor: pointer;
+}
 .choiceBTN {
     line-height: 2.5rem;
     font-size: 1rem;
@@ -69,15 +104,16 @@ h3:hover {
 .choiceBTN:hover {
     padding: 3px 3px 3px 10px;
     background: linear-gradient(90deg, rgb(163, 236, 236), rgb(130, 156, 236));
-    box-shadow: inset 3px 3px 6px rgb(133, 140, 178);
+    box-shadow: inset 3px 3px 6px var(--buttonshadow);
     transition: 0.2s ease-in-out;
     border-radius: 8px;
+    cursor: pointer;
 }
 
 .choiceBTN.correctGreen {
     padding: 3px 3px 3px 10px;
     background: linear-gradient(90deg, rgb(164, 243, 148), rgb(11, 155, 25));
-    box-shadow: inset 3px 3px 6px rgb(133, 140, 178);
+    box-shadow: inset 3px 3px 6px var(--buttonshadow);
     transition: 0.2s ease-in-out;
     border-radius: 8px;
 }
@@ -85,63 +121,12 @@ h3:hover {
 .choiceBTN.incorrectRed {
     padding: 3px 3px 3px 10px;
     background: linear-gradient(270deg, rgb(248, 167, 164), rgb(195, 32, 11));
-    box-shadow: inset 3px 3px 6px rgb(133, 140, 178);
+    box-shadow: inset 3px 3px 6px var(--buttonshadow);
     transition: 0.2s ease-in-out;
     border-radius: 8px;
 }
 
-/* it is not working from here, I styled it in JS. why??? */
-.feedback-style {
-    color:rgb(81, 80, 80);
-    font-size: 1.1rem;
-    font-style: italic;
-}
-
-#nextBTN, #startBTN, #submitBTN {
-    background: linear-gradient(rgb(52, 52, 136), rgb(30, 116, 174) 60%, rgb(174, 213, 250) 90%);
-    border-radius: 8px;
-    height: 40px;
-    width: 100px;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    font-size: 1.3rem;
-    font-weight: bold;
-    color: whitesmoke;
-    align-self: flex-end;
-}
-
-#nextBTN:hover, #startBTN:hover, #submitBTN:hover {
-    background: linear-gradient(rgb(157, 87, 195), rgb(169, 112, 219) 60%, rgb(242, 174, 250) 90%);
-    box-shadow: 3px 3px 5px rgb(97, 113, 189);
-    transition: 0.2s ease-in-out;
-    color: rgb(45, 44, 47);
-}
-
-#highScores{
-    display: block;
-    float: left;
-    margin-top: -100px;
-    margin-left: 1.2rem;
-    font-size: 0.9rem;
-    color: rgb(22, 22, 151);
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-#highscores:hover {
-    text-shadow: var(--text-shadow);
-    transition: 0.5s ease-in-out;
-}
-
-#highScoresList {
-background-color: aquamarine;
-display: block;
-float: left;
-margin-top: 10px;
-margin-left: 1.2rem;
-font-size: 1rem;
-color: rgb(19, 72, 93);
-}
-
-
+/* timer and highscores */
 #timer {
     display: block;
     position: fixed;
@@ -151,9 +136,24 @@ color: rgb(19, 72, 93);
     line-height: 1.3rem;;
     font-size: 1.2rem;
     font-weight:bold;
-    color: rgb(22, 22, 151);
+    color: var(--darkBlue);
 }
 
+#highScores {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--darkBlue);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#highScores:hover {
+    text-shadow: var(--text-shadow);
+    transition: 0.5s ease-in-out;
+    cursor: pointer;
+}
+
+/* footer */
 footer p {
     margin-left: -14rem;
 }
@@ -168,4 +168,89 @@ footer {
     bottom: 0px;
     height: 8%;
     width: 120%;
+}
+
+/* media queries for smaller screen sizes*/
+@media screen and (max-width: 768px) {
+    .card {
+        font-size: 1.2rem;
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+
+    h1 {
+        font-size: 1.7rem;
+
+    }
+
+    .choiceBTN {
+        line-height: 1.8rem;
+        font-size: 0.85rem;
+    }
+
+    .feedback {
+        font-size: 1rem;
+    }
+
+    #nextBTN, #startBTN, .submitBTN, .restartBTN {
+        height: 25px;
+        width: 75px;
+        margin-left: 10px;
+        font-size: 0.9rem;
+    }
+
+    #highScores {
+        font-size: 0.7rem;
+    }
+
+    #timer {
+        font-size: 1rem;    
+    }
+
+    footer{
+    font-size: 1.1rem;
+    }
+
+    footer p {
+    margin-left: -8rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .card {
+        font-size: 1rem;
+        margin-left: 4%;
+        margin-right: 4%;
+    }
+
+    h1 {
+        text-align: left;
+        font-size: 1.4rem;
+
+    }
+
+    .choiceBTN {
+        line-height: 1.5rem;
+        font-size: 0.7rem;
+    }
+
+    .feedback {
+        font-size: 0.9rem;
+    }
+
+    #highScores {
+        font-size: 0.7rem;
+    }
+
+    #timer {
+        font-size: 0.8rem;    
+    }
+
+    footer{
+        font-size: 0.9rem;
+    }
+
+    footer p {
+        margin-left: -5rem;
+    }
 }
